@@ -1,68 +1,81 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Рулетка</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        .roulette-wheel {
-            width: 300px;
-            height: 300px;
             background-color: #333;
-            border-radius: 50%;
-            margin: 20px auto;
-            position: relative;
+            color: #fff;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            color: white;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .balance-display {
+            margin-bottom: 20px;
             font-size: 24px;
         }
-        .spin-button {
-            margin: 20px;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
+
+        .roulette-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 10px solid #fff;
+            overflow: hidden;
         }
-        .spin-button:hover {
-            background-color: #45a049;
+
+        .roulette-wheel {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(red 0 10%, black 10% 20%, red 20% 30%, black 30% 40%, 
+                                       red 40% 50%, black 50% 60%, red 60% 70%, black 70% 80%, 
+                                       red 80% 90%, black 90% 100%);
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        }
+
+        .roulette-pointer {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid yellow;
         }
     </style>
 </head>
 <body>
-    <h1>Игра в рулетку</h1>
-    <div class="roulette-wheel" id="wheel">
-        <span id="result">0</span>
+    <div class="balance-display" id="balance">Баланс: 1000 монет</div>
+    <div class="roulette-container">
+        <div class="roulette-pointer"></div>
+        <div class="roulette-wheel" id="wheel"></div>
     </div>
-    <button class="spin-button" id="spinButton">Вращать колесо</button>
+    <button onclick="startSpin()">Spin</button>
 
     <script>
-        // Функция для вращения рулетки
-        function spinWheel() {
-            const wheel = document.getElementById("wheel");
-            const result = document.getElementById("result");
+        let balance = 1000;
 
-            // Генерация случайного числа от 0 до 36 (по аналогии с классической рулеткой)
-            const randomNum = Math.floor(Math.random() * 37);
+        function startSpin() {
+            const wheel = document.getElementById('wheel');
+            let randomRotation = 360 * 5 + Math.floor(Math.random() * 360); // Останавливается на случайной позиции
+            wheel.style.transform = `rotate(${randomRotation}deg)`;
 
-            // Анимация вращения колеса
-            wheel.style.transition = 'transform 2s ease-out';
-            wheel.style.transform = `rotate(${360 * 5 + (randomNum * 10)}deg)`; // 5 полных оборотов + позиция числа
-
-            // Показать результат через 2 секунды (после окончания анимации)
-            setTimeout(() => {
-                result.textContent = randomNum; // Показать результат вращения
-            }, 2000);
+            // Обновление баланса (примерно)
+            balance -= 100; // Уменьшаем баланс на ставку
+            document.getElementById('balance').textContent = `Баланс: ${balance} монет`;
         }
-
-        // Слушаем клик по кнопке вращения
-        document.getElementById("spinButton").addEventListener("click", spinWheel);
     </script>
 </body>
 </html>
+
