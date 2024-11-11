@@ -6,52 +6,41 @@
     <title>Рулетка</title>
     <style>
         body {
-            background-color: #333;
-            color: #fff;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            margin: 0;
+            background-color: #333;
+            color: #fff;
             font-family: Arial, sans-serif;
-        }
-
-        .balance-display {
-            margin-bottom: 20px;
-            font-size: 24px;
         }
 
         .roulette-container {
             position: relative;
-            width: 300px;
-            height: 300px;
+            width: 400px;
+            height: 400px;
             border-radius: 50%;
-            border: 10px solid #fff;
             overflow: hidden;
         }
 
         .roulette-wheel {
-            position: absolute;
             width: 100%;
             height: 100%;
-            border-radius: 50%;
-            background: conic-gradient(red 0 10%, black 10% 20%, red 20% 30%, black 30% 40%, 
-                                       red 40% 50%, black 50% 60%, red 60% 70%, black 70% 80%, 
-                                       red 80% 90%, black 90% 100%);
+            transform-origin: center;
             transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
         }
 
         .roulette-pointer {
             position: absolute;
-            top: -10px;
+            top: -20px;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
             border-left: 10px solid transparent;
             border-right: 10px solid transparent;
-            border-bottom: 20px solid yellow;
+            border-bottom: 30px solid yellow;
         }
     </style>
 </head>
@@ -59,7 +48,18 @@
     <div class="balance-display" id="balance">Баланс: 1000 монет</div>
     <div class="roulette-container">
         <div class="roulette-pointer"></div>
-        <div class="roulette-wheel" id="wheel"></div>
+        <svg class="roulette-wheel" id="wheel" viewBox="0 0 100 100">
+            <!-- Рисуем сектора рулетки -->
+            <circle cx="50" cy="50" r="48" fill="none" stroke="#fff" stroke-width="4" />
+            <!-- Добавьте пути для секторов с разными цветами -->
+            <g>
+                <!-- Используйте path для создания секторов с номерами -->
+                <!-- Пример одного сектора -->
+                <path d="M50 50 L50 2 A48 48 0 0 1 78.4 9.2 Z" fill="red" />
+                <text x="64" y="12" font-size="3" fill="#fff" transform="rotate(-15 50 50)">32</text>
+                <!-- Повторите для всех секторов с разными числами -->
+            </g>
+        </svg>
     </div>
     <button onclick="startSpin()">Spin</button>
 
@@ -68,11 +68,11 @@
 
         function startSpin() {
             const wheel = document.getElementById('wheel');
-            let randomRotation = 360 * 5 + Math.floor(Math.random() * 360); // Останавливается на случайной позиции
+            let randomRotation = 360 * 5 + Math.floor(Math.random() * 360); // Остановка на случайной позиции
             wheel.style.transform = `rotate(${randomRotation}deg)`;
 
             // Обновление баланса (примерно)
-            balance -= 100; // Уменьшаем баланс на ставку
+            balance -= 100; // Пример ставки
             document.getElementById('balance').textContent = `Баланс: ${balance} монет`;
         }
     </script>
