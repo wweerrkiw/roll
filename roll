@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рулетка</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .roulette-wheel {
+            width: 300px;
+            height: 300px;
+            background-color: #333;
+            border-radius: 50%;
+            margin: 20px auto;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+        }
+        .spin-button {
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .spin-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Игра в рулетку</h1>
+    <div class="roulette-wheel" id="wheel">
+        <span id="result">0</span>
+    </div>
+    <button class="spin-button" id="spinButton">Вращать колесо</button>
+
+    <script>
+        // Функция для вращения рулетки
+        function spinWheel() {
+            const wheel = document.getElementById("wheel");
+            const result = document.getElementById("result");
+
+            // Генерация случайного числа от 0 до 36 (по аналогии с классической рулеткой)
+            const randomNum = Math.floor(Math.random() * 37);
+
+            // Анимация вращения колеса
+            wheel.style.transition = 'transform 2s ease-out';
+            wheel.style.transform = `rotate(${360 * 5 + (randomNum * 10)}deg)`; // 5 полных оборотов + позиция числа
+
+            // Показать результат через 2 секунды (после окончания анимации)
+            setTimeout(() => {
+                result.textContent = randomNum; // Показать результат вращения
+            }, 2000);
+        }
+
+        // Слушаем клик по кнопке вращения
+        document.getElementById("spinButton").addEventListener("click", spinWheel);
+    </script>
+</body>
+</html>
